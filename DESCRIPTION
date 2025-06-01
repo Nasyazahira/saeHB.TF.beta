@@ -28,3 +28,5 @@ LinkingTo:
     rstan (>= 2.18.1),
     StanHeaders (>= 2.18.0)
 SystemRequirements: GNU make
+URL: https://github.com/Nasyazahira/saeHB.TF.beta
+BugReports: https://github.com/Nasyazahira/saeHB.TF.beta/issues
