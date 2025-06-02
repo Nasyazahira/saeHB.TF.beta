@@ -6,7 +6,14 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of saeHB.TF.beta is to …
+`saeHB.TF.beta` provides several functions for area and subarea level of
+small area estimation under Twofold Subarea Level Model using
+hierarchical Bayesian (HB) method with Beta distribution for variables
+of interest. Some dataset simulated by a data generation are also
+provided. The ‘rstan’ package is employed to obtain parameter estimates
+using STAN.
+
+## Function
 
 ## Installation
 
@@ -14,8 +21,8 @@ You can install the development version of saeHB.TF.beta from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("Nasyazahira/saeHB.TF.beta")
+# install.packages("devtools")
+# devtools::install.github("Nasyazahira/saeHB.TF.beta")
 ```
 
 ## Example
