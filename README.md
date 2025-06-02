@@ -27,33 +27,46 @@ You can install the development version of saeHB.TF.beta from
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Here is a basic example of using the **betaTF** function to make
+estimates based on sample data in this package
 
 ``` r
-library(saeHB.TF.beta)
-## basic example code
+#library(saeHB.TF.beta)
+
+#Load Dataset
+#data(dataBetaTF) #for dataset with nonsampled subarea use dataTwofoldNS
+
+#Fitting model
+#fit <- betaTF(y~X1+X2, area="codearea", weight="w", data=dataBetaTF)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+Extract subarea mean estimation
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+#fit$Est_sub
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+Extract area mean estimation
 
-You can also embed plots, for example:
+``` r
+#fit$Est_area
+```
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+Extract coefficient estimation $\beta$
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+``` r
+#fit$coefficient
+```
+
+Extract estimation of subarea random effect variance $\sigma^2_u$ and
+area random effect variance $\sigma^2_v$
+
+``` r
+#fit$refVar
+```
+
+Calculate Relative Standard Error (RSE)
+
+``` r
+#RSE <- (fit$Est_sub$SD)/(fit$Est_sub$Mean)*100
+```

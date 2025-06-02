@@ -32,10 +32,10 @@
 #' Rao, J. N. K. ., & Molina, Isabel. (2015). Small Area Estimation. 2nd Edition,  John Wiley & Sons, Inc. [https://doi.org/https://doi.org/10.1002/9781118735855](https://doi.org/https://doi.org/10.1002/9781118735855)
 #'
 #' @examples
-#' model = betaTF(formula,vardir="vardir",area="codearea",weight="w",data=dataBetaTF)
+#' model = betaTF(formula,area="codearea",weight="w",data=dataBetaTF)
 #'
 #'
-betaTF <- function(formula, area, weight, iter.update=1, iter.mcmc=1000, coef = NULL, var.coef = NULL, thin = 1, burn.in = iter.update/2, sigma2.u = 1, sigma2.v = 1, data){
+betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = NULL, var.coef = NULL, thin = 1, burn.in = floor(iter.mcmc / 2), sigma2.u = 1, sigma2.v = 1, data){
 
   result <- list()
   formuladata <- model.frame(formula,data,na.action=NULL)
@@ -71,9 +71,9 @@ betaTF <- function(formula, area, weight, iter.update=1, iter.mcmc=1000, coef = 
   }
 
   #check for iter.update >= 3
-  # if (iter.update < 3){
-  #   stop("the number of iteration updates at least 3 times")
-  # }
+  if (iter.update < 3){
+    stop("the number of iteration updates at least 3 times")
+  }
 
   for (i in 1:nrow(formuladata)) {
     if (!is.na(formuladata[i, 1])) {
