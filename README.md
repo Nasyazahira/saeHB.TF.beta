@@ -31,10 +31,10 @@ Here is a basic example of using the **betaTF** function to make
 estimates based on sample data in this package
 
 ``` r
-#library(saeHB.TF.beta)
+library(saeHB.TF.beta)
 
 #Load Dataset
-#data(dataBeta) #for dataset with nonsampled subarea use dataBetaNS
+data(dataBeta) #for dataset with nonsampled subarea use dataBetaNS
 
 #Fitting model
 #fit <- betaTF(y~X1+X2, area="codearea", weight="w", data=dataBetaTF)
