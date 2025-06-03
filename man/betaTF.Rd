@@ -8,12 +8,12 @@ betaTF(
   formula,
   area,
   weight,
-  iter.update = 1,
+  iter.update = 3,
   iter.mcmc = 1000,
   coef = NULL,
   var.coef = NULL,
   thin = 1,
-  burn.in = iter.update/2,
+  burn.in = floor(iter.mcmc/2),
   sigma2.u = 1,
   sigma2.v = 1,
   data
@@ -53,7 +53,7 @@ Function \code{betaTF} used for estimation of subarea and area means simultaneou
 The range of data must be \eqn{0<y<1}.
 }
 \examples{
-model = betaTF(formula,vardir="vardir",area="codearea",weight="w",data=dataBetaTF)
+model = betaTF(formula,area="codearea",weight="w",data=dataBeta)
 
 
 }

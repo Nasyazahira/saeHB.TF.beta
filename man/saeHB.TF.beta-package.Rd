@@ -11,6 +11,14 @@ A DESCRIPTION OF THE PACKAGE
 \references{
 Stan Development Team (NA). RStan: the R interface to Stan. R package version 2.36.0.9000. https://mc-stan.org
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/Nasyazahira/saeHB.TF.beta}
+  \item Report bugs at \url{https://github.com/Nasyazahira/saeHB.TF.beta/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Nasya Zahira Putri \email{nasyazp28@gmail.com}
 

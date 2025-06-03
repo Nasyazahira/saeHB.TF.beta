@@ -34,7 +34,7 @@ estimates based on sample data in this package
 #library(saeHB.TF.beta)
 
 #Load Dataset
-#data(dataBetaTF) #for dataset with nonsampled subarea use dataTwofoldNS
+#data(dataBeta) #for dataset with nonsampled subarea use dataBetaNS
 
 #Fitting model
 #fit <- betaTF(y~X1+X2, area="codearea", weight="w", data=dataBetaTF)
