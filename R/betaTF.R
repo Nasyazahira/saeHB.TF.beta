@@ -32,7 +32,7 @@
 #' Rao, J. N. K. ., & Molina, Isabel. (2015). Small Area Estimation. 2nd Edition,  John Wiley & Sons, Inc. [https://doi.org/https://doi.org/10.1002/9781118735855](https://doi.org/https://doi.org/10.1002/9781118735855)
 #'
 #' @examples
-#' model = betaTF(formula,area="codearea",weight="w",data=dataBeta)
+#' model = betaTF(y~X1+X2,area="codearea",weight="w",data=dataBeta)
 #'
 #'
 betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = NULL, var.coef = NULL, thin = 1, burn.in = floor(iter.mcmc / 2), sigma2.u = 1, sigma2.v = 1, data){

@@ -53,7 +53,7 @@ Function \code{betaTF} used for estimation of subarea and area means simultaneou
 The range of data must be \eqn{0<y<1}.
 }
 \examples{
-model = betaTF(formula,area="codearea",weight="w",data=dataBeta)
+model = betaTF(y~X1+X2,area="codearea",weight="w",data=dataBeta)
 
 
 }
