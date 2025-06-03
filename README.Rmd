@@ -27,16 +27,16 @@ knitr::opts_chunk$set(
 
 You can install the development version of saeHB.TF.beta from [GitHub](https://github.com/) with:
 
-``` r
+```{r, eval=FALSE}
 # install.packages("devtools")
-# devtools::install.github("Nasyazahira/saeHB.TF.beta")
+devtools::install.github("Nasyazahira/saeHB.TF.beta")
 ```
 
 ## Example
 
 Here is a basic example of using the **betaTF** function to make estimates based on sample data in this package
 
-```{r example}
+```{r example, eval=FALSE}
 library(saeHB.TF.beta)
 
 #Load Dataset
@@ -47,27 +47,27 @@ fit <- betaTF(y~X1+X2, area="codearea", weight="w", data=dataBeta)
 ```
 
 Extract subarea mean estimation
-```{r}
+```{r, eval=FALSE}
 fit$Est_sub
 ```
 
 Extract area mean estimation
-```{r}
+```{r, eval=FALSE}
 fit$Est_area
 ```
 
 Extract coefficient estimation $\beta$
-```{r}
+```{r, eval=FALSE}
 fit$coefficient
 ```
 
 Extract estimation of subarea random effect variance $\sigma^2_u$ and area random effect variance $\sigma^2_v$
-```{r}
+```{r, eval=FALSE}
 fit$refVar
 ```
 
 Calculate Relative Standard Error (RSE)
-```{r}
+```{r, eval=FALSE}
 RSE <- (fit$Est_sub$SD)/(fit$Est_sub$Mean)*100
 summary(RSE)
 ```
