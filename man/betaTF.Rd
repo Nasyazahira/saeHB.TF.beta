@@ -38,12 +38,18 @@ betaTF(
 
 \item{burn.in}{Number of iterations to discard at the beginning}
 
+\item{sigma2.u}{Number of prior initial value of variance of subarea random effect}
+
+\item{sigma2.v}{Number of prior initial value of variance of area random effect}
+
 \item{data}{The data frame}
 }
 \value{
 This function returns a list with following objects:
-\item{Est_sub}{A dataframe that contains the values, standar deviation, and quantile of Subarea mean Estimates using Twofold Subarea level model under Hierarchical Bayes method}
-\item{Est_area}{A dataframe that contains the values, standar deviation, and quantile of Area mean Estimates using Twofold Subarea level model under Hierarchical Bayes method}
+\item{Est_sub}{A dataframe contains the values, standar deviation, and quantile of Subarea mean Estimates using Twofold Subarea level model under Hierarchical Bayes method}
+\item{Est_area}{A dataframe contains the values, standar deviation, and quantile of Area mean Estimates using Twofold Subarea level model under Hierarchical Bayes method}
+\item{area_randeff}{A dataframe contains area random effect}
+\item{sub_randeff}{A dataframe contains subarea random effect}
 \item{refVar}{A dataframe that contains estimated subarea and area random effect variance \eqn{(\sigma_{u}^{2}} and \eqn{\sigma_{v}^{2})}}
 \item{coefficient}{A dataframe that contains the estimated model coefficient \eqn{\beta}}
 \item{plot}{Trace, Density, Autocorrelation Function Plot of coefficient}
@@ -53,7 +59,7 @@ Function \code{betaTF} used for estimation of subarea and area means simultaneou
 The range of data must be \eqn{0<y<1}.
 }
 \examples{
-model = betaTF(y~X1+X2,area="codearea",weight="w",data=dataBeta)
+fit <- betaTF(y~X1+X2,area="codearea",weight="w",data=dataBeta)
 
 
 }
