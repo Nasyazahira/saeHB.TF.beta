@@ -13,6 +13,8 @@
 #' @param var.coef Vector contains prior initial value of variance of Coefficient of Regression Model for fixed effect with default vector of `1` with the length of the number of regression coefficients
 #' @param thin  Thinning rate, must be a positive integer
 #' @param burn.in  Number of iterations to discard at the beginning
+#' @param sigma2.u  Number of prior initial value of variance of subarea random effect
+#' @param sigma2.v  Number of prior initial value of variance of area random effect
 #' @param data  The data frame
 #'
 #' @return  This function returns a list with following objects:
@@ -32,7 +34,7 @@
 #' Rao, J. N. K. ., & Molina, Isabel. (2015). Small Area Estimation. 2nd Edition,  John Wiley & Sons, Inc. [https://doi.org/https://doi.org/10.1002/9781118735855](https://doi.org/https://doi.org/10.1002/9781118735855)
 #'
 #' @examples
-#' model = betaTF(y~X1+X2,area="codearea",weight="w",data=dataBeta)
+#' fit <- betaTF(y~X1+X2,area="codearea",weight="w",data=dataBeta)
 #'
 #'
 betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = NULL, var.coef = NULL, thin = 1, burn.in = floor(iter.mcmc / 2), sigma2.u = 1, sigma2.v = 1, data){
@@ -169,7 +171,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       tau.vb <- result_stats["sigma2_v", "mean"] / result_stats["sigma2_v", "sd"]^2
     }
 
-      result_samps <- rstan::summary(fit, pars = c("mu", "b", "sigma2_u", "sigma2_v"))
+      result_samps <- rstan::summary(fit, pars = c("mu", "b", "sigma2_u", "sigma2_v", "f", "u"))
       result_stats <- result_samps$summary
 
       mu <- result_stats[grep("^mu\\[", rownames(result_stats)), c("mean", "sd")]
@@ -189,6 +191,11 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       a_var <- result_stats["sigma2_u", "mean"]
       beta <- result_stats[grep("^b\\[", rownames(result_stats)), c("mean", "sd")]
       b_var <- result_stats["sigma2_v", "mean"]
+
+      f_mean <- result_stats[grep("^f\\[", rownames(result_stats)), "mean"]
+      area_randeff <- data.frame(f_mean)
+      u_mean <- result_stats[grep("^u\\[", rownames(result_stats)), "mean"]
+      sub_randeff <- data.frame(u_mean)
 
       refVari <- as.data.frame(cbind(b_var, a_var))
       rownames(beta) <- b.varnames
@@ -328,7 +335,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       tau.vb <- result_stats["sigma2_v", "mean"] / result_stats["sigma2_v", "sd"]^2
     }
 
-    result_samps <- rstan::summary(fit, pars = c("mu_sampled", "mu_nonsampled", "b", "sigma2_u", "sigma2_v"))
+    result_samps <- rstan::summary(fit, pars = c("mu_sampled", "mu_nonsampled", "b", "sigma2_u", "sigma2_v", "f", "u"))
     result_stats <- result_samps$summary
 
     mu <- result_stats[1:n1, c("mean", "sd")]
@@ -349,6 +356,11 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     a_var <- result_stats["sigma2_u", "mean"]
     beta <- result_stats[grep("^b\\[", rownames(result_stats)), c("mean", "sd")]
     b_var <- result_stats["sigma2_v", "mean"]
+
+    f_mean <- result_stats[grep("^f\\[", rownames(result_stats)), "mean"]
+    area_randeff <- data.frame(f_mean)
+    u_mean <- result_stats[grep("^u\\[", rownames(result_stats)), "mean"]
+    sub_randeff <- data.frame(u_mean)
 
     refVari <- data.frame(b_var, a_var)
     rownames(beta) <- b.varnames
@@ -414,6 +426,8 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
 
   result$Est_sub = Estimation
   result$Est_area = Est_area2
+  result$area_randeff = area_randeff
+  result$sub_randeff = sub_randeff
   result$refVar = refVari
   result$coefficient = beta
   result$plot = list(mcmc_trace(fit, regex_pars = "^b\\["), mcmc_dens(fit, regex_pars = "^b\\["), mcmc_acf_bar(fit, regex_pars = "^b\\["))
