@@ -49,8 +49,8 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     stop("Auxiliary Variables contains NA values.")
   }
 
-  auxVar <- as.matrix(formuladata[,-1]) #auxiliary variable matrix
-  nvar <- ncol(auxVar) + 1 #number for coef beta, coef, and var.coef
+  auxVar <- as.matrix(formuladata[,-1]) # Auxiliary variable matrix
+  nvar <- ncol(auxVar) + 1 # Number for regression coefficient
 
   formuladata <- data.frame(formuladata, codearea=data[,area], weight=data[,weight])
 
@@ -74,7 +74,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     mu.b.value = rep(0,nvar)
   }
 
-  #check for iter.update >= 3
+  #check for iter.update
   if (iter.update < 3){
     stop("the number of iteration updates at least 3 times")
   }
@@ -89,24 +89,23 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     }
   }
 
-  #check whether ydir is not NA
+  # check whether ydir is not NA
   if(!any(is.na(formuladata[,1]))){
     formuladata <- as.matrix(na.omit(formuladata))
 
-    #check 0<ydir<1
+    # check 0<ydir<1
     if (any(formuladata[,1]<=0) || any(formuladata[,1]>=1)){
       stop("response variable must be 0 < " ,formula[2], " < 1")
     }
 
-    n <- nrow(formuladata) #number of observation/subarea
-    m <- length(unique(formuladata[,(nvar+1)])) #number of area
+    n <- nrow(formuladata) # Number of observation
+    m <- length(unique(formuladata[,(nvar+1)])) # Number of area
     mu.b = mu.b.value
     sigma2.b = sigma2.b.value
     tau.ua = tau.ub = tau.va = tau.vb = phi.aa = phi.ab = phi.ba = phi.bb = 1
 
 
     for (iter in 1:iter.update) {
-      # Prepare data for Stan
       stan_data <- list(
         n = n,
         nvar = nvar,
@@ -127,16 +126,14 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
         phi_bb = phi.bb
       )
 
-      # Initial values for Stan
       init_values <- list(
         u = rep(0, n),
-        v = rep(0, m),
+        f = rep(0, m),
         b = mu.b,
         sigma2_u = sigma2.u,
         sigma2_v = sigma2.v
       )
 
-      # Run Stan sampling
       fit <- rstan::sampling(
         stanmodels$saeHB_TF_beta,
         data = stan_data,
@@ -162,7 +159,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
         mu.b[i] <- beta[i, "mean"]
         sigma2.b[i] <- beta[i, "sd"]^2
       }
-      #
+
       phi.aa <- result_stats["phi_a", "mean"]^2 / result_stats["phi_a", "sd"]^2
       phi.ab <- result_stats["phi_a", "mean"] / result_stats["phi_a", "sd"]^2
       phi.ba <- result_stats["phi_b", "mean"]^2 / result_stats["phi_b", "sd"]^2
@@ -185,11 +182,11 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
         b.varnames[i] <- str_replace_all(paste("b[", idx.b.varnames, "]"), pattern=" ", replacement="")
       }
 
-      # Extract MCMC samples from the 'fit' object (Stan's sampling result)
-      result_mcmc <- rstan::extract(fit) # Extracting 'b' from the Stan result (adjust based on your model)
+      # Extract MCMC samples from the Stan's sampling result
+      result_mcmc <- rstan::extract(fit)
       colnames(result_mcmc$b) <- b.varnames
 
-      # Access summary statistics for 'a_var', 'beta', 'b_var' from Stan summary results
+      # Access summary statistics
       a_var <- result_stats["sigma2_u", "mean"]
       beta <- result_stats[grep("^b\\[", rownames(result_stats)), c("mean", "sd")]
       b_var <- result_stats["sigma2_v", "mean"]
@@ -217,6 +214,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       colnames(Estimation) <- c("Mean", "SD", "2.5%", "25%", "50%", "75%", "97.5%")
       colnames(beta) <- c("Mean", "SD", "2.5%", "25%", "50%", "75%", "97.5%")
 
+      # Area estimation
       w <- gr <- 0
       result_mcmc_area <- data.frame(t(result_mcmc$mu))
 
@@ -239,8 +237,8 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
   } else {
     formuladata <- as.data.frame(formuladata)
 
-    n <- nrow(formuladata) #number of observation/subarea
-    m <- length(unique(formuladata[,(nvar+1)])) #number of area
+    n <- nrow(formuladata) # Number of observation/subarea
+    m <- length(unique(formuladata[,(nvar+1)])) # Number of area
     formuladata$idx <- rep(1:n)
     data_sampled <- na.omit(formuladata)
     data_nonsampled <- formuladata[-data_sampled$idx, ]
@@ -251,12 +249,12 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     sigma2.b = sigma2.b.value
     tau.ub = tau.ua = phi.aa=phi.ab = phi.ba=phi.bb = tau.va=tau.vb= 1
 
+    # check 0<ydir<1
     if (any(data_sampled[,1]<=0) || any(data_sampled[,1]>=1)){
       stop("response variable must be 0 < " ,formula[2], " < 1")
     }
 
     for (iter in 1:iter.update) {
-      # Prepare data for Stan
       stan_data <- list(
         n1 = n1,
         n2 = n2,
@@ -281,17 +279,15 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
         phi_bb = phi.bb
       )
 
-      # Initial values for Stan
       init_values <- list(
         u1 = rep(0, n1),
         u2 = rep(0, n2),
-        v = rep(0, m),
+        f = rep(0, m),
         b = mu.b,
         sigma2_u = sigma2.u,
         sigma2_v = sigma2.v
       )
 
-      # Run Stan sampling
       fit <- rstan::sampling(
         stanmodels$saeHB_TF_beta_NA,
         data = stan_data,
@@ -328,7 +324,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       tau.vb <- result_stats["sigma2_v", "mean"] / result_stats["sigma2_v", "sd"]^2
     }
 
-    result_samps <- rstan::summary(fit, pars = c("mu_sampled", "mu_nonsampled", "b", "sigma2_u", "sigma2_v", "f", "u"))
+    result_samps <- rstan::summary(fit, pars = c("mu_sampled", "mu_nonsampled", "b", "sigma2_u", "sigma2_v", "f", "u1", "u2"))
     result_stats <- result_samps$summary
 
     mu <- result_stats[1:n1, c("mean", "sd")]
@@ -341,11 +337,11 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       b.varnames[i] <- str_replace_all(paste("b[", idx.b.varnames, "]"), pattern=" ", replacement="")
     }
 
-    # Extract MCMC samples from the 'fit' object (Stan's sampling result)
-    result_mcmc <- rstan::extract(fit) # Extracting 'b' from the Stan result (adjust based on your model)
+    # Extract MCMC samples from the Stan's sampling result
+    result_mcmc <- rstan::extract(fit)
     colnames(result_mcmc$b) <- b.varnames
 
-    # Access summary statistics for 'a_var', 'beta', 'b_var' from Stan summary results
+    # Access summary statistics
     a_var <- result_stats["sigma2_u", "mean"]
     beta <- result_stats[grep("^b\\[", rownames(result_stats)), c("mean", "sd")]
     b_var <- result_stats["sigma2_v", "mean"]
@@ -353,7 +349,9 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     # Extract random effect
     f_mean <- result_stats[grep("^f\\[", rownames(result_stats)), "mean"]
     area_randeff <- data.frame(f_mean)
-    u_mean <- result_stats[grep("^u\\[", rownames(result_stats)), "mean"]
+    u_mean <- matrix(rep(0,n))
+    u_mean[r,] <- result_stats[grep("^u2\\[", rownames(result_stats)), "mean"]
+    u_mean[-r,] <- result_stats[grep("^u1\\[", rownames(result_stats)), "mean"]
     sub_randeff <- data.frame(u_mean)
 
     refVari <- data.frame(b_var, a_var)
@@ -368,8 +366,8 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     Quantiles <- result_stats[, c("2.5%", "25%", "50%", "75%", "97.5%")]
 
     q_beta <- Quantiles[grep("^b\\[", rownames(result_stats)), ]  # Quantiles for beta coefficients
-    q_mu <- Quantiles[1:n1, ]  # Quantiles for mu
-    q_mu.nonsampled <- Quantiles[(n1+1):n, ]  # Quantiles for mu
+    q_mu <- Quantiles[1:n1, ]  # Quantiles for mu sampled
+    q_mu.nonsampled <- Quantiles[(n1+1):n, ]  # Quantiles for mu nonsampled
     rownames(q_beta) <- b.varnames
     beta <- data.frame(cbind(beta, q_beta))
 
@@ -382,6 +380,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     Estimation <- data.frame(Estimation, q_Estimation)
     colnames(Estimation) <- c("Mean", "SD", "2.5%", "25%", "50%", "75%", "97.5%")
 
+    # Area estimation
     w <- gr <- 0
     result_mcmc_area_s <- data.frame(t(result_mcmc$mu_sampled))
     result_mcmc_area_ns <- data.frame(t(result_mcmc$mu_nonsampled))
