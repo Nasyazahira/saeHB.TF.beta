@@ -194,6 +194,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       beta <- result_stats[grep("^b\\[", rownames(result_stats)), c("mean", "sd")]
       b_var <- result_stats["sigma2_v", "mean"]
 
+      # Extract random effect
       f_mean <- result_stats[grep("^f\\[", rownames(result_stats)), "mean"]
       area_randeff <- data.frame(f_mean)
       u_mean <- result_stats[grep("^u\\[", rownames(result_stats)), "mean"]
@@ -202,7 +203,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       refVari <- as.data.frame(cbind(b_var, a_var))
       rownames(beta) <- b.varnames
 
-      #subarea esrimation
+      # Subarea estimation
       Estimation <- as.data.frame(mu)
 
       Quantiles <- result_stats[, c("2.5%", "25%", "50%", "75%", "97.5%")]
@@ -217,9 +218,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       colnames(beta) <- c("Mean", "SD", "2.5%", "25%", "50%", "75%", "97.5%")
 
       w <- gr <- 0
-      result_mcmc_area <- data.frame(t(result_mcmc$mu))  # Assuming you want to extract 'mu'
-      # dtarea <- data.table(result_mcmc_area, w=data[[weight]], gr = data[[area]])
-      # Quantilesdt <- dtarea[, lapply(.SD, function(x, w) sum(x * w), w = w), by = gr][, w := NULL]
+      result_mcmc_area <- data.frame(t(result_mcmc$mu))
 
       dtarea <- data.frame(result_mcmc_area, w = data[[weight]], gr = data[[area]])
       cols_to_agg <- setdiff(names(dtarea), c("gr", "w"))
@@ -236,14 +235,6 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
       Quantiles_SD <- apply(Quant_matrix, 1, sd)
       Est_area2 <- data.frame(Mean = Quantiles_Mean, SD = Quantiles_SD, t(Quantiles_area))
       colnames(Est_area2) <- c("Mean", "SD", "2.5%", "25%", "50%", "75%", "97.5%")
-      # Quantiles_area <- apply(Quantilesdt[,-1], MARGIN = 1, FUN = function(x) {
-      #   quantile(x, probs = c(0.025, 0.25, 0.50, 0.75, 0.975))
-      # })
-      # Quantiles_Mean <- apply(Quantilesdt[,-1], MARGIN = 1, FUN = mean)
-      # Quantiles_SD <- apply(Quantilesdt[,-1], MARGIN = 1, FUN = sd)
-      # Est_area2 <- data.frame(cbind(Quantiles_Mean, Quantiles_SD, t(Quantiles_area)))
-      # colnames(Est_area2) <- c("Mean", "SD", "2.5%", "25%", "50%", "75%", "97.5%")
-
 
   } else {
     formuladata <- as.data.frame(formuladata)
@@ -359,6 +350,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     beta <- result_stats[grep("^b\\[", rownames(result_stats)), c("mean", "sd")]
     b_var <- result_stats["sigma2_v", "mean"]
 
+    # Extract random effect
     f_mean <- result_stats[grep("^f\\[", rownames(result_stats)), "mean"]
     area_randeff <- data.frame(f_mean)
     u_mean <- result_stats[grep("^u\\[", rownames(result_stats)), "mean"]
@@ -367,7 +359,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     refVari <- data.frame(b_var, a_var)
     rownames(beta) <- b.varnames
 
-    #subarea esrimation
+    # Subarea estimation
     Estimation <- matrix(rep(0,n),n,2)
     Estimation[r,]=mu.nonsampled
     Estimation[-r,]=mu
@@ -415,15 +407,7 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     Quantiles_SD <- apply(Quant_matrix, 1, sd)
     Est_area2 <- data.frame(Mean = Quantiles_Mean, SD = Quantiles_SD, t(Quantiles_area))
     colnames(Est_area2) <- c("Mean", "SD", "2.5%", "25%", "50%", "75%", "97.5%")
-    # dtarea <- data.table(result_mcmc_area, w=data[[weight]], gr = data[[area]])
-    # Quantilesdt <- dtarea[, lapply(.SD, function(x, w) sum(x * w), w = w), by = gr][, w := NULL]
-    # Quantiles_area <- apply(Quantilesdt[,-1], MARGIN = 1, FUN = function(x) {
-    #   quantile(x, probs = c(0.025, 0.25, 0.50, 0.75, 0.975))
-    # })
-    # Quantiles_Mean <- apply(Quantilesdt[,-1], MARGIN = 1, FUN = mean)
-    # Quantiles_SD <- apply(Quantilesdt[,-1], MARGIN = 1, FUN = sd)
-    # Est_area2 <- data.frame(cbind(Quantiles_Mean, Quantiles_SD, t(Quantiles_area)))
-    # colnames(Est_area2) <- c("Mean", "SD", "2.5%", "25%", "50%", "75%", "97.5%")
+
   }
 
   result$Est_sub = Estimation
