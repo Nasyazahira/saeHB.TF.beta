@@ -408,13 +408,13 @@ betaTF <- function(formula, area, weight, iter.update=3, iter.mcmc=1000, coef = 
     colnames(Est_area2) <- c("Mean", "SD", "2.5%", "25%", "50%", "75%", "97.5%")
 
   }
-
+  rhats <- rhat(fit, regex_pars = "^b\\[")
   result$Est_sub = Estimation
   result$Est_area = Est_area2
   result$area_randeff = area_randeff
   result$sub_randeff = sub_randeff
   result$refVar = refVari
   result$coefficient = beta
-  result$plot = list(mcmc_trace(fit, regex_pars = "^b\\["), mcmc_dens(fit, regex_pars = "^b\\["), mcmc_acf_bar(fit, regex_pars = "^b\\["))
+  result$plot = list(mcmc_trace(fit, regex_pars = "^b\\["), mcmc_dens(fit, regex_pars = "^b\\["), mcmc_acf_bar(fit, regex_pars = "^b\\["), mcmc_rhat(rhats[grep("^b\\[", names(rhats))]) + yaxis_text(hjust = 0))
   return(result)
 }
