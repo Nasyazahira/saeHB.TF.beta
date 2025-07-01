@@ -59,10 +59,6 @@ Function \code{betaTF} used for estimation of subarea and area means simultaneou
 The range of data must be \eqn{0<y<1}.
 }
 \examples{
-fit <- betaTF(y~X1+X2,area="codearea",weight="w",data=dataBeta)
+fit <- betaTF(y~X1+X2,area="codearea",weight="w",data=dataBeta, iter.mcmc = 500)
 
-
-}
-\references{
-Rao, J. N. K. ., & Molina, Isabel. (2015). Small Area Estimation. 2nd Edition,  John Wiley & Sons, Inc. \url{https://doi.org/https://doi.org/10.1002/9781118735855}
 }

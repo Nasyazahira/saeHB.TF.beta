@@ -56,14 +56,10 @@ model {
     b[k] ~ normal(mu_b[k], sqrt(sigma2_b[k]));
   }
 
-  //target += inv_gamma_lpdf(sigma2_u | 0.001, 0.001);
-  //target += inv_gamma_lpdf(sigma2_v | 0.001, 0.001);
-
   sigma2_u ~ inv_gamma(tau_ua, tau_ub);
   sigma2_v ~ inv_gamma(tau_va, tau_vb);
 
   // Likelihood
-  //target += beta_lpdf(y | A, B)
   for (i in 1:n){
     y[i] ~ beta(A[i], B[i]);
   }

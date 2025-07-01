@@ -1,9 +1,23 @@
 Package: saeHB.TF.beta
 Title: Small Area Estimation using Hierarchical Bayes Twofold Subarea Level Model under Beta Distribution
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
-    person("Nasya Zahira", "Putri", email = "nasyazp28@gmail.com",role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    c(
+    person("Nasya Zahira", "Putri", email = "nasyazp28@gmail.com",role = c("aut", "cre")),
+    person("Cucu", "Sumarni", email = "cucu@stis.ac.id",role = c("aut"))
+    )
+Maintainer: Nasya Zahira Putri <nasyazp28@gmail.com>
+Description: We developed this package to provide several functions for area-
+    and subarea-level small area estimation under the Twofold Subarea Level
+    Model using a hierarchical Bayesian (HB) with the Beta distribution
+    for variables of interest. A number of simulated datasets generated for
+    illustration purposes are also included. The 'rstan' package is employed
+    to estimate parameters via the Hamiltonian Monte Carlo and No U-Turn Sampler algorithm. The 
+    model-based estimators include the HB mean, the variation of the mean, and quantiles. 
+    For references, see Rao and Molina (2015) <doi:10.1002/9781118735855>,
+    Torabi and Rao (2014) <doi:10.1016/j.jmva.2014.02.001>, Leyla Mohadjer et
+    al. (2007) <http://www.asasrms.org/Proceedings/y2007/Files/JSM2007-000559.pdf>,
+    and Erciulescu et al. (2019) <doi:10.1111/rssa.12390>.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -30,3 +44,7 @@ SystemRequirements: GNU make
 URL: https://github.com/Nasyazahira/saeHB.TF.beta
 BugReports: https://github.com/Nasyazahira/saeHB.TF.beta/issues
 LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

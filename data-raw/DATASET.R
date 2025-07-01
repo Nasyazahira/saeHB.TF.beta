@@ -26,5 +26,10 @@ MU=A/(A+B)
 vardir = (A*B)/((A+B)^2*(A+B+1))
 w <- runif(n,0.2,0.7)
 dataBeta <- data.frame(y, X1, X2, vardir,codearea,w)
+del_index=sample(1:nrow(dataBeta), 5, replace=F)
+dataBetaNS <- dataBeta
+dataBetaNS[c(del_index),c(1,4)] <- NA
+
 
 usethis::use_data(dataBeta, overwrite = TRUE)
+usethis::use_data(dataBetaNS, overwrite = TRUE)
