@@ -58,8 +58,15 @@ Extract coefficient estimation $\beta$
 fit$coefficient
 ```
 
-Extract estimation of subarea random effect variance $\sigma^2_u$ and
-area random effect variance $\sigma^2_v$
+Extract estimation of subarea and area random effect $u$ and $v$
+
+``` r
+fit$area_randeff
+fit$sub_randeff
+```
+
+Extract estimation of subarea and area random effect variance
+$\sigma^2_u$ and $\sigma^2_v$
 
 ``` r
 fit$refVar
