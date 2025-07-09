@@ -8,9 +8,9 @@
 A data frame with 90 rows and 6 columns:
 \describe{
 \item{y}{Direct estimation of subarea mean \eqn{y_{ij}}}
-\item{X1}{Auxiliary variabel of \eqn{X_{ij1}}}
-\item{X2}{Auxiliary variabel of \eqn{X_{ij2}}}
-\item{codearea}{Index that describes the code relating to warea for each subarea}
+\item{X1}{Auxiliary variable of \eqn{X_{ij1}}}
+\item{X2}{Auxiliary variable of \eqn{X_{ij2}}}
+\item{codearea}{Index that describes the code relating to area for each subarea}
 \item{w}{Unit proportion on each subarea or weight \eqn{w_{ij}}}
 \item{vardir}{Sampling variance of direct estimator \eqn{y_{ij}}}
 }

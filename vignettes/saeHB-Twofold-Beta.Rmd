@@ -29,7 +29,7 @@ model <- betaTF(y~X1+X2,area="codearea",weight="w",iter.mcmc = 10000, burn.in = 
 
 ## STEP 3 Extract mean estimation
 
-### Subrea Estimation
+### Subarea Estimation
 
 ```{r}
 model$Est_sub

@@ -46,8 +46,8 @@ betaTF(
 }
 \value{
 This function returns a list with following objects:
-\item{Est_sub}{A dataframe contains the values, standar deviation, and quantile of Subarea mean Estimates using Twofold Subarea level model under Hierarchical Bayes method}
-\item{Est_area}{A dataframe contains the values, standar deviation, and quantile of Area mean Estimates using Twofold Subarea level model under Hierarchical Bayes method}
+\item{Est_sub}{A dataframe contains the values, standard deviation, and quantile of Subarea mean Estimates using Twofold Subarea level model under Hierarchical Bayes method}
+\item{Est_area}{A dataframe contains the values, standard deviation, and quantile of Area mean Estimates using Twofold Subarea level model under Hierarchical Bayes method}
 \item{area_randeff}{A dataframe contains area random effect}
 \item{sub_randeff}{A dataframe contains subarea random effect}
 \item{refVar}{A dataframe that contains estimated subarea and area random effect variance \eqn{(\sigma_{u}^{2}} and \eqn{\sigma_{v}^{2})}}
