@@ -36,13 +36,26 @@ devtools::install.github("Nasyazahira/saeHB.TF.beta")
 
 Here is a basic example of using the **betaTF** function to make estimates based on sample data in this package
 
-### Modelling
-```{r example, results='hide', message=FALSE, warning=FALSE}
+### Load Package and Data
+
+```{r}
 library(saeHB.TF.beta)
 
 #Load Dataset
 data(dataBeta) #for dataset with nonsampled subarea use dataBetaNS
+```
 
+
+### Exploration
+
+```{r, eval = FALSE, message=FALSE, warning=FALSE}
+dataBeta$CV <- sqrt(dataBeta$vardir)/dataBeta$y
+explore(y~X1+X2, CV = "CV", data = dataBeta)
+```
+
+### Modelling
+
+```{r example, results='hide', message=FALSE, warning=FALSE}
 #Fitting model
 fit <- betaTF(y~X1+X2, area="codearea", weight="w", data=dataBeta, iter.update = 5, iter.mcmc = 10000)
 ```
@@ -55,7 +68,7 @@ Area mean estimation
 fit$Est_area
 ```
 
-Area random effect 
+Area random effect
 
 ```{r, results='hide'}
 fit$area_randeff
@@ -76,7 +89,7 @@ Subarea mean estimation
 fit$Est_sub
 ```
 
-Subarea random effect 
+Subarea random effect
 
 ```{r, results='hide'}
 fit$sub_randeff
@@ -103,9 +116,10 @@ fit$refVar
 
 ### Visualize the Result
 
-```{r, results='hide'}
+```{r, results='hide', warning=FALSE}
 library(ggplot2)
 ```
+
 Save the output of Subarea estimation and the Direct Estimation (y)
 
 ```{r}
@@ -130,6 +144,7 @@ ggplot(df, aes(x = area)) +
     y = "Value"
   )
 ```
+
 ```{r, warning=FALSE, message=FALSE}
 ggplot(df, aes(x = , direct, y = mean_estimate)) +
   geom_point( size = 2, colour = "#2b707a") +
@@ -167,4 +182,3 @@ ggplot(df_cv, aes(x = area)) +
     y = "CV (%)"
   )
 ```
-

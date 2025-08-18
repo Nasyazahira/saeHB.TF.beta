@@ -30,14 +30,25 @@ devtools::install.github("Nasyazahira/saeHB.TF.beta")
 Here is a basic example of using the **betaTF** function to make
 estimates based on sample data in this package
 
-### Modelling
+### Load Package and Data
 
 ``` r
 library(saeHB.TF.beta)
 
 #Load Dataset
 data(dataBeta) #for dataset with nonsampled subarea use dataBetaNS
+```
 
+### Exploration
+
+``` r
+dataBeta$CV <- sqrt(dataBeta$vardir)/dataBeta$y
+explore(y~X1+X2, CV = "CV", data = dataBeta)
+```
+
+### Modelling
+
+``` r
 #Fitting model
 fit <- betaTF(y~X1+X2, area="codearea", weight="w", data=dataBeta, iter.update = 5, iter.mcmc = 10000)
 ```
@@ -100,7 +111,6 @@ fit$refVar
 
 ``` r
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.4.3
 ```
 
 Save the output of Subarea estimation and the Direct Estimation (y)
@@ -128,7 +138,7 @@ ggplot(df, aes(x = area)) +
   )
 ```
 
-<img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
 
 ``` r
 ggplot(df, aes(x = , direct, y = mean_estimate)) +
@@ -143,7 +153,7 @@ ggplot(df, aes(x = , direct, y = mean_estimate)) +
   )
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
 
 Combine the CV of direct estimation and CV from output
 
@@ -170,4 +180,4 @@ ggplot(df_cv, aes(x = area)) +
   )
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
