@@ -48,9 +48,9 @@ data(dataBeta) #for dataset with nonsampled subarea use dataBetaNS
 
 ### Exploration
 
-```{r, eval = FALSE, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 dataBeta$CV <- sqrt(dataBeta$vardir)/dataBeta$y
-explore(y~X1+X2, CV = "CV", data = dataBeta)
+explore(y~X1+X2, CV = "CV", data = dataBeta, normality = TRUE)
 ```
 
 ### Modelling

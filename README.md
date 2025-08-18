@@ -43,8 +43,21 @@ data(dataBeta) #for dataset with nonsampled subarea use dataBetaNS
 
 ``` r
 dataBeta$CV <- sqrt(dataBeta$vardir)/dataBeta$y
-explore(y~X1+X2, CV = "CV", data = dataBeta)
+explore(y~X1+X2, CV = "CV", data = dataBeta, normality = TRUE)
+#>                   y         X1         X2
+#> Min.    0.002826007 0.04205953 0.02461368
+#> 1st Qu. 0.677417203 0.34818477 0.20900053
+#> Median  0.986658040 0.58338771 0.39409355
+#> Mean    0.786269096 0.57240016 0.43864087
+#> 3rd Qu. 0.999116512 0.85933934 0.73765722
+#> Max.    1.000000000 0.99426978 0.96302423
+#> NA      0.000000000 0.00000000 0.00000000
+#> 
+#> Normality test for y :
+#> Decision: Data do NOT follow normal distribution, with p.value = 0 < 0.05
 ```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
 
 ### Modelling
 
