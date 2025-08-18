@@ -57,7 +57,7 @@ explore(y~X1+X2, CV = "CV", data = dataBeta, normality = TRUE)
 #> Decision: Data do NOT follow normal distribution, with p.value = 0 < 0.05
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="50%" /><img src="man/figures/README-unnamed-chunk-4-2.png" width="50%" />
 
 ### Modelling
 
