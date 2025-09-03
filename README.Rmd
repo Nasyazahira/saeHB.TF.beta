@@ -53,7 +53,7 @@ dataBeta$CV <- sqrt(dataBeta$vardir)/dataBeta$y
 explore(y~X1+X2, CV = "CV", data = dataBeta, normality = TRUE)
 ```
 
-### Modelling
+### Modeling
 
 ```{r example, results='hide', message=FALSE, warning=FALSE}
 #Fitting model

@@ -1,10 +1,8 @@
-#' @title Exploration of the Data Used for Modelling
+#' @title Exploration of the Data Used for Modeling
 #'
 #' @description
-#' Function `explore` provides an initial exploration of a dataset. It calculates
-#' summary statistics for all variables in the provided formula or dataset,
-#' visualizes the distribution of the response variable as a histogram density,
-#' and boxplot for Coefficient of Variation (CV) / Relative Standard Error (RSE).
+#' Function `explore` provides an initial exploration of a dataset. It calculate summary statistics for all variables in the provided formula or dataset,
+#' visualizes the distribution of the response variable as a histogram density,and boxplot for Coefficient of Variation (CV) / Relative Standard Error (RSE).
 #'
 #' @param formula Optional formula to specify a response variable (e.g., y ~ x1 + x2).
 #' @param CV Coefficient of Variation (CV) or Relative Standard Error (RSE) of the response variable

@@ -2,7 +2,7 @@
 % Please edit documentation in R/explore.R
 \name{explore}
 \alias{explore}
-\title{Exploration of the Data Used for Modelling}
+\title{Exploration of the Data Used for Modeling}
 \usage{
 explore(formula, CV = NULL, data, normality = FALSE)
 }
@@ -22,10 +22,8 @@ variables, including minimum, 1st quartile, median, mean, 3rd quartile, maximum,
 and number of missing values (NA). Plots are drawn to the current graphics device.
 }
 \description{
-Function \code{explore} provides an initial exploration of a dataset. It calculates
-summary statistics for all variables in the provided formula or dataset,
-visualizes the distribution of the response variable as a histogram density,
-and boxplot for Coefficient of Variation (CV) / Relative Standard Error (RSE).
+Function \code{explore} provides an initial exploration of a dataset. It calculate summary statistics for all variables in the provided formula or dataset,
+visualizes the distribution of the response variable as a histogram density,and boxplot for Coefficient of Variation (CV) / Relative Standard Error (RSE).
 }
 \examples{
 dataBeta$CV <- sqrt(dataBeta$vardir)/dataBeta$y
